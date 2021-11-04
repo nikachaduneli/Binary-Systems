@@ -16,27 +16,21 @@ def binary_add(a,b) -> str:
         b = '0'*(b_len-a_len)+a    
 
     a, b = a[::-1], b[::-1]
-    result = ''
-    carry = 0
-    for i in range(a_len):
-        if a[i]=='1' and b[i] =='1' and carry== 1:
-            result+='1'
-            carry = 1
-        if a[i]=='1' and b[i] =='1':
-            result += '0'
-            carry = 1
-        elif (a[i]=='1' or b[i] =='1') and carry == 1:
-            result+='0'
-            carry = 1     
-        elif a[i]=='1' or b[i] =='1':
-            result+='1'
-            carry = 0 
-        elif carry ==1 :
-            result+='1'
-            carry = 0
-        else:result+='0'
+    sumList = [] 
+    carry = 0       
 
-    return result[::-1] if len(result) == a_len else 'Overflow: not enough bits to display result'              
+    for i in range(a_len):
+        sum = (int(a[i]) + int(b[i]) +carry) % 2    
+        carry = (int(a[i]) + int(b[i]) +carry) // 2
+        sumList.append(str(sum))  
+
+    if carry:
+        sumList.append(str(carry))
+
+    sumList.reverse()
+    result = ''.join(sumList)
+    
+    return result if len(result) == a_len else 'Overflow: not enough bits to display result' 
 
 #converts decimal number into signed magnitude system
 def decimal_to_sign_magn(num: int, bit_num: int=4) -> str:
